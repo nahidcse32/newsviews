@@ -11,4 +11,9 @@
     <dimen name="slide_title">30dp</dimen>
     <dimen name="slide_desc">16dp</dimen>
     <dimen name="desc_padding">40dp</dimen>
+    <dimen name="title">16sp</dimen>
+    <dimen name="description">14sp</dimen>
+    <dimen name="date">15sp</dimen>
+    <dimen name="radius">2dp</dimen>
+
 </resources>

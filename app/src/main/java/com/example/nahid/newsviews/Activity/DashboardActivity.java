@@ -1,11 +1,14 @@
 package com.example.nahid.newsviews.Activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +30,6 @@ public class DashboardActivity extends AppCompatActivity
     private Toolbar toolbar;
     private CharSequence mTitle;
     Fragment fragment = new HomeFragment();
-    SharedPrefManager sharedPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,15 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .commit();
+            }
+        }, 100);
     }
 
     @Override
@@ -66,7 +77,7 @@ public class DashboardActivity extends AppCompatActivity
         return true;
     }
 
-    /*@Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -74,40 +85,48 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.search) {
+            startActivity(new Intent(getApplicationContext(),SearchNumberActivity.class));
+
         }
 
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        mTitle = "Dashboard";
+        mTitle = "Home";
+        switch (id) {
+            case R.id.nav_home:
+                fragment = new HomeFragment();
+                mTitle = "Home";
+                break;
+            case R.id.nav_about:
+                fragment = new AboutFragment();
+                mTitle = "About";
+                break;
+            case R.id.nav_exit:
+                finish();
+                break;
 
-        if (id == R.id.nav_home) {
-
-            fragment = new HomeFragment();
-            mTitle = "Home";
-
-        } else if (id == R.id.nav_about) {
-            fragment = new AboutFragment();
-            mTitle = "About";
-
-        } else if (id == R.id.nav_exit) {
-            finish();
-
+            default:
+                fragment = new HomeFragment();
+                mTitle = "Home";
+                break;
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
-        fragmentManager.addOnBackStackChangedListener(null);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.addToBackStack(null);
         toolbar.setTitle(mTitle);
         return true;
     }

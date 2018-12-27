@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">NewsViews</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_dashboard">Home</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
@@ -13,7 +13,7 @@
     <string name="start">GOT IT</string>
 
     <string name="slide_1_title">Anisur Rahman Nahid</string>
-    <string name="slide_1_desc"></string>
+    <string name="slide_1_desc">I am an Android Application developer</string>
 
     <string name="slide_2_title">NewsViews</string>
     <string name="slide_2_desc"></string>
